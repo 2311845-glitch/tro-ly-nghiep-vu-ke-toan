@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trợ lý nghiệp vụ kế toán</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f6fa;color:#1f2937}
+.wrap{max-width:900px;margin:auto;padding:18px}.hero{background:#1459a6;color:white;padding:25px;border-radius:18px;margin-bottom:16px}
+h1{margin:0 0 8px;font-size:27px}.hero p{margin:0;line-height:1.5}
+.card{background:white;padding:20px;border-radius:16px;box-shadow:0 3px 15px #00000012;margin-bottom:16px}
+label{font-weight:bold;display:block;margin-bottom:7px}
+select,button{width:100%;padding:13px;border-radius:10px;font-size:15px;margin-bottom:12px}
+select{border:1px solid #cbd5e1;background:white}button{border:0;background:#1459a6;color:white;font-weight:bold;cursor:pointer}
+.result{background:#eef6ff;border-left:5px solid #1459a6;border-radius:10px;padding:17px;line-height:1.65}
+.tag{display:inline-block;padding:5px 10px;border-radius:15px;background:#e8f1ff;color:#1459a6;font-size:12px;font-weight:bold}
+.small{color:#64748b;font-size:14px}
+ul{padding-left:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero">
+<div class="tag">AI ACCOUNTING ASSISTANT</div>
+<h1>Trợ lý nghiệp vụ kế toán</h1>
+<p>Tra cứu nhanh cách xử lý, định khoản, chứng từ và lưu ý pháp lý cho các nghiệp vụ kế toán thường gặp.</p>
+</div>
+
+<div class="card">
+<label>Chọn nhóm nghiệp vụ</label>
+<select id="nv">
+<option value="mua">Mua hàng hóa, nguyên vật liệu</option>
+<option value="ban">Bán hàng, cung cấp dịch vụ</option>
+<option value="kho">Nhập - xuất kho, hàng tồn kho</option>
+<option value="tscd">Mua và trích khấu hao TSCĐ</option>
+<option value="ccdc">Mua và phân bổ CCDC</option>
+<option value="luong">Tiền lương và các khoản trích theo lương</option>
+<option value="vat">Thuế GTGT</option>
+<option value="tndn">Thuế TNDN</option>
+<option value="congno">Thu - chi, công nợ phải thu/phải trả</option>
+<option value="thanhly">Thanh lý, nhượng bán TSCĐ</option>
+</select>
+<button onclick="show()">Xem hướng dẫn xử lý</button>
+<div id="result"></div>
+</div>
+
+<div class="card">
+<h3>Nguyên tắc sử dụng</h3>
+<ul>
+<li>Kiểm tra hóa đơn, hợp đồng, biên bản và chứng từ trước khi định khoản.</li>
+<li>Đối chiếu tài khoản với chế độ kế toán doanh nghiệp mà đơn vị đang áp dụng.</li>
+<li>Phần pháp lý cần kiểm tra văn bản hiện hành tại thời điểm phát sinh nghiệp vụ.</li>
+<li>Ứng dụng mang tính hỗ trợ học tập, không thay thế ý kiến của kế toán trưởng hoặc tư vấn chuyên môn.</li>
+</ul>
+<p class="small"><b>Căn cứ tham khảo:</b> các Chuẩn mực kế toán Việt Nam (VAS) và văn bản hướng dẫn chế độ kế toán, thuế, quản lý TSCĐ/CCDC có liên quan.</p>
+</div>
+</div>
+
+<script>
+const d={
+mua:`<b>Mua hàng/ nguyên vật liệu</b><br>Kiểm tra hóa đơn, hợp đồng, phiếu nhập và điều kiện khấu trừ VAT.<br><b>Định khoản tham khảo:</b> Nợ TK 152/156; Nợ TK 133 (nếu đủ điều kiện); Có TK 111/112/331.<br><b>Kiểm soát:</b> đối chiếu số lượng, đơn giá, thuế suất và công nợ.`,
+ban:`<b>Bán hàng/ cung cấp dịch vụ</b><br>Kiểm tra hợp đồng, phiếu xuất kho, biên bản giao nhận và hóa đơn.<br><b>Định khoản tham khảo:</b> Nợ TK 111/112/131; Có TK 511; Có TK 3331 (nếu có VAT). Đồng thời ghi nhận giá vốn: Nợ TK 632/Có TK 156, 155 tùy trường hợp.`,
+kho:`<b>Nhập - xuất kho</b><br>Đối chiếu phiếu nhập/xuất với chứng từ mua bán và số lượng thực tế.<br><b>Ghi nhận:</b> nhập kho làm tăng hàng tồn kho; xuất bán thường ghi nhận giá vốn. Phương pháp tính giá xuất kho phải thống nhất theo chính sách kế toán.`,
+tscd:`<b>Tài sản cố định</b><br>Kiểm tra điều kiện ghi nhận, hồ sơ mua sắm, bàn giao và nguyên giá.<br><b>Định khoản mua:</b> Nợ TK 211; Nợ TK 133 (nếu đủ điều kiện); Có TK 111/112/331.<br><b>Khấu hao tham khảo:</b> Nợ TK 627/641/642; Có TK 214 tùy bộ phận sử dụng.`,
+ccdc:`<b>Công cụ dụng cụ</b><br>Xác định CCDC và phương pháp phân bổ phù hợp.<br><b>Tham khảo:</b> khi mua có thể ghi Nợ TK 153, Nợ TK 133 (nếu đủ điều kiện), Có TK 111/112/331; khi xuất dùng và phân bổ ghi nhận chi phí theo bộ phận sử dụng.`,
+luong:`<b>Tiền lương</b><br>Căn cứ bảng chấm công, bảng lương và quy chế của doanh nghiệp.<br><b>Tham khảo:</b> Nợ TK 622/627/641/642; Có TK 334. Các khoản trích theo lương được hạch toán theo quy định hiện hành và bộ phận sử dụng lao động.`,
+vat:`<b>Thuế GTGT</b><br>Kiểm tra phương pháp tính thuế, hóa đơn đầu vào/đầu ra và điều kiện khấu trừ.<br><b>Tham khảo:</b> VAT đầu vào theo TK 133; VAT đầu ra theo TK 3331. Khi kê khai phải đối chiếu sổ kế toán với tờ khai thuế.`,
+tndn:`<b>Thuế TNDN</b><br>Xác định doanh thu, chi phí được trừ, thu nhập khác và các khoản điều chỉnh theo quy định thuế hiện hành.<br><b>Tham khảo kế toán:</b> xác định chi phí thuế TNDN hiện hành và các khoản liên quan theo chế độ kế toán áp dụng.`,
+congno:`<b>Thu - chi và công nợ</b><br>Kiểm tra phiếu thu/chi, giấy báo Có/Nợ, hợp đồng và đối chiếu công nợ.<br><b>Tham khảo:</b> thu tiền khách hàng: Nợ TK 111/112; Có TK 131. Thanh toán người bán: Nợ TK 331; Có TK 111/112.`,
+thanhly:`<b>Thanh lý/nhượng bán TSCĐ</b><br>Lập hồ sơ thanh lý, xác định nguyên giá và hao mòn lũy kế, sau đó ghi giảm TSCĐ và phản ánh doanh thu/chi phí phát sinh.<br><b>Lưu ý:</b> kiểm tra hóa đơn, biên bản bàn giao và chứng từ thu tiền.`
+};
+function show(){document.getElementById("result").innerHTML=d[document.getElementById("nv").value]}
+show();
+</script>
+</body>
+</html>
